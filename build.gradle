@@ -34,6 +34,9 @@ dependencies {
     testCompile "org.springframework.boot:spring-boot-starter-test"
 
     compile group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: "2.9.5"
+    compile group: "com.github.kittinunf.fuel", name: "fuel", version: fuelVersion
+    compile group: "com.github.kittinunf.fuel", name: "fuel-coroutines", version: fuelVersion
+    compile group: "com.google.code.gson", name: "gson", version: gsonVersion
     compile group: "com.zaxxer", name: "HikariCP", version: hikariVersion
     compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8", version: kotlinVersion
     compile group: "org.jetbrains.kotlinx", name: "kotlinx-coroutines-core", version: kotlinCoroutinesVersion
