@@ -1,49 +1,33 @@
 package com.criticalmass.coroutines.importer.nhl.players
 
-import com.criticalmass.coroutines.constants.Hashids
-import com.criticalmass.coroutines.constants.NHL
-import com.criticalmass.coroutines.models.Game
 import com.criticalmass.coroutines.models.Player
-import com.criticalmass.coroutines.models.Players
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.criticalmass.coroutines.models.PlayerModel
 import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
 
-class ImportNHLPlayers {
+class ImportNHLPlayers(val players: Map<String, Player>) {
     fun start() {
-        FuelManager.instance.basePath = NHL.statsEndpoint
-        val hashids = Hashids.config
-
-        "/people/8447775".httpGet().responseString { request, response, result ->
-            when (result) {
-                is Result.Failure -> {
-                    // Error Handling
-                }
-
-                is Result.Success -> {
-                    val data = result.get()
-
-                    val factory = KotlinJsonAdapterFactory()
-                    val moshi = Moshi.Builder().add(factory).build()
-
-                    val playerAdapter = moshi.adapter(Player::class.java)
-                    val player = playerAdapter.fromJson(data)?: error("Unable to parse Game from JSON.")
-
-                    for (person in player.people) transaction {
-                        val hash = hashids.encode(person.id.toLong()).toLong()
-
-                        Players.insert {
-                            it[uid] = hash
-                            it[firstName] = person.firstName
-                            it[lastName] = person.lastName
-                        }
-                    }
-                }
-            }
+        for (player in players.values) {
+//            println(player)
+            println(
+            PlayerModel.insert {
+                it[uid] = player.id
+                it[fullName] = player.fullName
+                it[link] = player.link
+                it[firstName] = player.firstName
+                it[lastName] = player.lastName
+                it[primaryNumber] = player.primaryNumber
+                it[birthDate] = player.birthDate
+                it[birthCity] = player.birthCity
+                it[birthStateProvince] = player.birthStateProvince
+                it[birthCountry] = player.birthCountry
+                it[nationality] = player.nationality
+                it[height] = player.height
+                it[weight] = player.weight
+                it[active] = player.active
+                it[rookie] = player.rookie
+                it[shootsCatches] = player.shootsCatches
+                it[rosterStatus] = player.rosterStatus
+            })
         }
     }
 }

@@ -4,15 +4,39 @@ import org.jetbrains.exposed.dao.IntIdTable
 import org.jetbrains.exposed.sql.Column
 
 data class Team(
-    val name: String
+    val id: Int,
+    val name: String,
+    val link: String,
+//    val value: String,
+    val abbreviation: String,
+    val triCode: String,
+    val teamName: String,
+    val locationName: String,
+    val firstYearOfPlay: String,
+//    val division: String,
+//    val franchise: String,
+//    val conference: String,
+    val shortName: String,
+    val officialSiteUrl: String,
+    val franchiseId: String,
+    val active: Boolean
 )
 
-object Teams : IntIdTable("teams", "increment_id") {
+object TeamModel : IntIdTable("teams", "increment_id") {
     /**
      * Exposed reserves the `id` variable, so we use `uid` here (Unique ID)
      * This is merely a formality and is actually mapped to the `id` column in the database
      */
-    val uid: Column<Long> = Teams.long("id").uniqueIndex()
-    val city: Column<String> = Teams.varchar("city", 255)
-    val name: Column<String> = Teams.varchar("name", 255)
+    val uid: Column<Int> = integer("id").uniqueIndex()
+    val name: Column<String> = varchar("name", 255)
+    val link: Column<String> = varchar("link", 255)
+    val abbreviation: Column<String> = varchar("abbreviation", 255)
+    val triCode: Column<String> = varchar("triCode", 255)
+    val teamName: Column<String> = varchar("teamName", 255)
+    val locationName: Column<String> = varchar("locationName", 255)
+    val firstYearOfPlay: Column<String> = varchar("firstYearOfPlay", 255)
+    val shortName: Column<String> = varchar("shortName", 255)
+    val officialSiteUrl: Column<String> = varchar("officialSiteUrl", 255)
+    val franchiseId: Column<String> = varchar("franchiseId", 255)
+    val active: Column<Boolean> = bool("active")
 }

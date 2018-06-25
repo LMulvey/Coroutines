@@ -1,11 +1,12 @@
 package com.criticalmass.coroutines
 
-import com.criticalmass.coroutines.models.Players
-import com.criticalmass.coroutines.models.Teams
+import com.criticalmass.coroutines.models.GameModel
+import com.criticalmass.coroutines.models.PlayerModel
+import com.criticalmass.coroutines.models.TeamModel
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils.create
+import org.jetbrains.exposed.sql.SchemaUtils.createMissingTablesAndColumns
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -46,8 +47,12 @@ fun prepareDatabase() {
      * Create Database Table Structure
      * Kind of like make-shift migrations going on here
      */
-
     transaction {
-        create(Teams, Players)
+
+        createMissingTablesAndColumns(
+            GameModel,
+            PlayerModel,
+            TeamModel
+        )
     }
 }

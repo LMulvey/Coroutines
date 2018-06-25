@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class RootController {
     @RequestMapping("/", produces = [APPLICATION_JSON_VALUE])
-    fun index() {
+    fun index(): String {
         async { ImportNHLGames().start() }
+
+        return "Imports Started"
     }
 }
