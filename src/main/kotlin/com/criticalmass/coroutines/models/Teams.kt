@@ -3,6 +3,10 @@ package com.criticalmass.coroutines.models
 import org.jetbrains.exposed.dao.IntIdTable
 import org.jetbrains.exposed.sql.Column
 
+data class Team(
+    val name: String
+)
+
 object Teams : IntIdTable("teams", "increment_id") {
     /**
      * Exposed reserves the `id` variable, so we use `uid` here (Unique ID)
