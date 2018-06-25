@@ -22,4 +22,6 @@ object Hashids {
 
 object NHL {
     val statsEndpoint = "http://statsapi.web.nhl.com/api/v1"
+    val firstGameId = 1990020001
+    var nextGameId = firstGameId
 }

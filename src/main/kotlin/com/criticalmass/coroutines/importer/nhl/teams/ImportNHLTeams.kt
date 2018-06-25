@@ -1,14 +1,14 @@
 package com.criticalmass.coroutines.importer.nhl.teams
 
+import com.criticalmass.coroutines.helpers.postgresql.insertOrUpdate
 import com.criticalmass.coroutines.models.Team
 import com.criticalmass.coroutines.models.TeamModel
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ImportNHLTeams(val team: Team) {
     fun start() {
         transaction {
-            TeamModel.insert {
+            TeamModel.insertOrUpdate(TeamModel.uid) {
                 it[uid] = team.id
                 it[name] = team.name
                 it[link] = team.link
@@ -23,5 +23,7 @@ class ImportNHLTeams(val team: Team) {
                 it[active] = team.active
             }
         }
+
+        println("Team Updated: ${team.name}")
     }
 }

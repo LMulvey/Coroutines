@@ -65,14 +65,14 @@ object GameModel : IntIdTable("games", "increment_id") {
     val type = varchar("type", 255)
 
     // datetime
-    val dateTime = varchar("dateTime", 255)
+    val dateTime = varchar("date_time", 255)
 
     // status
-    val abstractGameState = varchar("abstractGameState", 255)
-    val codedGameState = integer("codedGameState")
-    val detailedState = varchar("detailedState", 255)
-    val statusCode = integer("statusCode")
-    val startTimeTBD = bool("startTimeTBD")
+    val abstractGameState = varchar("abstract_game_state", 255)
+    val codedGameState = integer("coded_game_state")
+    val detailedState = varchar("detailed_state", 255)
+    val statusCode = integer("status_code")
+    val startTimeTBD = bool("start_time_tbd")
 
     // teams
     val away = integer("away_team")
