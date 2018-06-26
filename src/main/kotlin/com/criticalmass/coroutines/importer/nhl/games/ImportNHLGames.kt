@@ -24,6 +24,10 @@ class ImportNHLGames() {
      */
     FuelManager.instance.basePath = NHL.statsEndpoint
 
+    /**
+     * Loop through all of the games for the 2017 - 2018 NHL Season
+     * 1271 of them to be exact -> (31 teams * 82 games) / 2
+     */
     for (gameId in 1..1271) {
       println("Importing Game #201702${String.format("%04d", gameId)}")
 
