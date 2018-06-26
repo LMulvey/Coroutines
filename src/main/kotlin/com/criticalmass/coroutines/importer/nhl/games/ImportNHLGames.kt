@@ -1,8 +1,6 @@
 package com.criticalmass.coroutines.importer.nhl.games
 
 import com.criticalmass.coroutines.constants.NHL
-import com.criticalmass.coroutines.constants.NHLImportStats
-import com.criticalmass.coroutines.helpers.postgresql.insertOrUpdate
 import com.criticalmass.coroutines.importer.nhl.players.ImportNHLPlayers
 import com.criticalmass.coroutines.importer.nhl.plays.ImportNHLPlays
 import com.criticalmass.coroutines.importer.nhl.teams.ImportNHLTeams
@@ -14,21 +12,25 @@ import com.github.kittinunf.result.Result
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ImportNHLGames() {
   fun start() {
+    println("Starting Import")
     /**
      * Define basePath and then Import game with ID
      */
     FuelManager.instance.basePath = NHL.statsEndpoint
 
-    for (gameId in 1..1280) {
-      println("/game/201702${String.format("%04d", gameId)}/feed/live")
+    for (gameId in 1..1271) {
+      println("Importing Game #201702${String.format("%04d", gameId)}")
+
       "/game/201702${String.format("%04d", gameId)}/feed/live".httpGet().responseString { _, response, result ->
         when (result) {
           is Result.Failure -> {
-            // handle errors
+            println("Failed: ${response.statusCode} - 201702${String.format("%04d", gameId)} $result")
           }
 
           is Result.Success -> {
@@ -45,16 +47,19 @@ class ImportNHLGames() {
              */
             // Plays
             launch {
-              // ImportNHLPlays(game.liveData.plays).start()
+              println("Game #201702${String.format("%04d", gameId)} Plays ✅")
+              ImportNHLPlays(game.liveData.plays).start()
             }
 
             // Players
             launch {
+              println("Game #201702${String.format("%04d", gameId)} Players ✅")
               ImportNHLPlayers(game.gameData.players).start()
             }
 
             // Teams
             launch {
+              println("Game #201702${String.format("%04d", gameId)} Teams ✅")
               ImportNHLTeams(game.gameData.teams.away).start()
               ImportNHLTeams(game.gameData.teams.home).start()
             }
@@ -63,7 +68,9 @@ class ImportNHLGames() {
              * Store the Game Object to the Database
              */
             transaction {
-              GameModel.insertOrUpdate(GameModel.uid) {
+              logger.addLogger(StdOutSqlLogger)
+
+              GameModel.insert {
                 it[uid] = game.id
                 it[link] = game.link
 

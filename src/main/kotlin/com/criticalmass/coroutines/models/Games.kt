@@ -1,5 +1,6 @@
 package com.criticalmass.coroutines.models
 
+import com.criticalmass.coroutines.importer.nhl.plays.Plays
 import com.squareup.moshi.Json
 import org.jetbrains.exposed.dao.IntIdTable
 import org.jetbrains.exposed.sql.Column
@@ -11,7 +12,7 @@ data class Game(
   @Json(name = "gamePk") val id: Int,
   val link: String,
   val gameData: GameData,
-  val liveData: GameLiveData
+  val liveData: LiveData
 )
 
 data class GameData(
@@ -45,8 +46,8 @@ data class GameTeams(
   val home: Team
 )
 
-data class GameLiveData(
-  val plays: PlaysList
+data class LiveData(
+  val plays: Plays
 
 )
 

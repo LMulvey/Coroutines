@@ -1,7 +1,6 @@
 package com.criticalmass.coroutines.models
 
 import org.jetbrains.exposed.dao.IntIdTable
-import org.jetbrains.exposed.sql.Column
 
 /**
  * The data class mapping the returned JSON fields to a variable
@@ -16,17 +15,17 @@ data class Player(
   val link: String,
   val firstName: String,
   val lastName: String,
-  val primaryNumber: Int,
+  val primaryNumber: Int?,
   val birthDate: String,
-  val birthCity: String,
+  val birthCity: String?,
   val birthStateProvince: String?,
-  val birthCountry: String,
-  val nationality: String,
-  val height: String,
-  val weight: Int,
+  val birthCountry: String?,
+  val nationality: String?,
+  val height: String?,
+  val weight: Int?,
   val active: Boolean,
   val rookie: Boolean,
-  val shootsCatches: String,
+  val shootsCatches: String?,
   val rosterStatus: String
 )
 
@@ -43,16 +42,16 @@ object PlayerModel : IntIdTable("players", "increment_id") {
   val link = varchar("link", 255)
   val firstName = varchar("first_name", 255)
   val lastName = varchar("last_name", 255)
-  val primaryNumber = integer("primary_number")
+  val primaryNumber = integer("primary_number").nullable()
   val birthDate = varchar("birth_date", 255)
-  val birthCity = varchar("birth_city", 255)
+  val birthCity = varchar("birth_city", 255).nullable()
   val birthStateProvince = varchar("birth_state_province", 255).nullable()
-  val birthCountry = varchar("birth_country", 255)
-  val nationality = varchar("nationality", 255)
-  val height = varchar("height", 255)
-  val weight = integer("weight")
+  val birthCountry = varchar("birth_country", 255).nullable()
+  val nationality = varchar("nationality", 255).nullable()
+  val height = varchar("height", 255).nullable()
+  val weight = integer("weight").nullable()
   val active = bool("active")
   val rookie = bool("rookie")
-  val shootsCatches = varchar("shoots_catches", 255)
+  val shootsCatches = varchar("shoots_catches", 255).nullable()
   val rosterStatus = varchar("roster_status", 255)
 }

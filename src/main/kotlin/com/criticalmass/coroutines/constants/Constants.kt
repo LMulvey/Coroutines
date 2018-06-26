@@ -13,4 +13,5 @@ object Database {
 
 object NHL {
   val statsEndpoint = "http://statsapi.web.nhl.com/api/v1"
+  var playsCount = 0
 }

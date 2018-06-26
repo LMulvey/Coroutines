@@ -1,6 +1,7 @@
 package com.criticalmass.coroutines
 
 import com.criticalmass.coroutines.models.GameModel
+import com.criticalmass.coroutines.models.PlayModel
 import com.criticalmass.coroutines.models.PlayerModel
 import com.criticalmass.coroutines.models.TeamModel
 import com.zaxxer.hikari.HikariConfig
@@ -48,10 +49,10 @@ fun prepareDatabase() {
    * Kind of like make-shift migrations going on here
    */
   transaction {
-
     createMissingTablesAndColumns(
       GameModel,
       PlayerModel,
+      PlayModel,
       TeamModel
     )
   }

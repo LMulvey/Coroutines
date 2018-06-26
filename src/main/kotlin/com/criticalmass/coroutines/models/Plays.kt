@@ -1,18 +1,15 @@
 package com.criticalmass.coroutines.models
 
-data class PlaysList(
-  val allPlays: Array<Map<String, AllPlays>>,
-  val scoringPlays: Array<Int>,
-  val penaltyPlays: Array<Int>
-)
+import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.sql.Column
 
-data class Play(
-  val id: Int
-)
-
-data class AllPlays(
-  val players: Array<String>,
-  val result: Map<String, String>,
-  val about: Map<String, String>,
-  val team: Team
-)
+/**
+ * The Table structure
+ */
+object PlayModel : IntIdTable("plays", "increment_id") {
+  /**
+   * Results
+   */
+  val event = varchar("event", 255)
+  val description = varchar("description", 255)
+}

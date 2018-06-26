@@ -3,12 +3,15 @@ package com.criticalmass.coroutines.importer.nhl.players
 import com.criticalmass.coroutines.helpers.postgresql.insertOrUpdate
 import com.criticalmass.coroutines.models.Player
 import com.criticalmass.coroutines.models.PlayerModel
+import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ImportNHLPlayers(val players: Map<String, Player>) {
   fun start() {
     for (player in players.values) {
       transaction {
+        logger.addLogger(StdOutSqlLogger)
+
         PlayerModel.insertOrUpdate(PlayerModel.uid) {
           it[uid] = player.id
           it[fullName] = player.fullName
