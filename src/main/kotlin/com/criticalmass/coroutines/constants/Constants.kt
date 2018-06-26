@@ -1,7 +1,5 @@
 package com.criticalmass.coroutines.constants
 
-import org.hashids.Hashids
-
 object Database {
   val protocol = "jdbc"
   val type = "postgresql"
@@ -13,21 +11,6 @@ object Database {
   val url = "${protocol}:${type}://${host}:${port}/${name}"
 }
 
-object Hashids {
-  val salt = "criticalmass"
-  val minHashLength = 16
-  val alphabet = "0123456789cfhistuCFHISTU"
-  val config = Hashids(salt, minHashLength, alphabet)
-}
-
 object NHL {
   val statsEndpoint = "http://statsapi.web.nhl.com/api/v1"
-
-  var seasonCode = 2017
-  var gameTypeCode = 2;
-}
-
-object NHLImportStats {
-  var validGames = 0
-  var invalidGames = 0
 }
