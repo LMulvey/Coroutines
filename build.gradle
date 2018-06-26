@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+    }
+}
+
+apply plugin: "org.springframework.boot"
+apply plugin: "kotlin-spring"
+apply plugin: "kotlin"
+apply plugin: "idea"
+
+jar {
+    baseName = projectName
+    version = projectVersion
+}
+
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+repositories {
+    maven {
+        url  "https://dl.bintray.com/kotlin/exposed"
+    }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+
+    compile group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: "2.9.5"
+    compile group: "com.github.kittinunf.fuel", name: "fuel", version: fuelVersion
+    compile group: "com.github.kittinunf.fuel", name: "fuel-coroutines", version: fuelVersion
+    compile group: "com.google.code.gson", name: "gson", version: gsonVersion
+    compile group: "com.squareup.moshi", name: "moshi", version: moshiVersion
+    compile group: "com.squareup.moshi", name: "moshi-kotlin", version: moshiVersion
+    compile group: "com.zaxxer", name: "HikariCP", version: hikariVersion
+    compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8", version: kotlinVersion
+    compile group: "org.jetbrains.kotlinx", name: "kotlinx-coroutines-core", version: kotlinCoroutinesVersion
+    compile group: "org.springframework.boot", name: "spring-boot-devtools"
+    compile group: "org.springframework.boot", name: "spring-boot-starter"
+    compile group: "org.springframework.boot", name: "spring-boot-starter-web"
+    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator"
+    compile group: "org.hashids", name: "hashids", version: hashIdsVersion
+    compile group: "org.jetbrains.exposed", name: "exposed", version: exposedVersion
+    compile group: "org.postgresql", name: "postgresql", version: postgresVersion
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
