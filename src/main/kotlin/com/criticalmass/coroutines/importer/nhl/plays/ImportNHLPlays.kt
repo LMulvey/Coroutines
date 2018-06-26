@@ -1,6 +1,5 @@
 package com.criticalmass.coroutines.importer.nhl.plays
 
-import com.criticalmass.coroutines.constants.NHL
 import com.criticalmass.coroutines.models.PlayModel
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.insert
@@ -8,9 +7,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ImportNHLPlays(val plays: Plays) {
   fun start() {
-    NHL.playsCount += plays.allPlays.count()
-    println("${NHL.playsCount} plays")
-
     for (play in plays.allPlays) {
       transaction {
         logger.addLogger(StdOutSqlLogger)
