@@ -16,43 +16,43 @@ import com.criticalmass.coroutines.constants.Database as DBConstants
 open class Application
 
 fun main(args: Array<String>) {
-    /**
-     * Connect and Structure to our Primary PostgreSQL instance
-     */
-    prepareDatabase()
+  /**
+   * Connect and Structure to our Primary PostgreSQL instance
+   */
+  prepareDatabase()
 
-    /**
-     * Trigger the Initialization of the Spring Application Framework
-     */
-    SpringApplication.run(Application::class.java, *args)
+  /**
+   * Trigger the Initialization of the Spring Application Framework
+   */
+  SpringApplication.run(Application::class.java, *args)
 }
 
 fun prepareDatabase() {
-    /**
-     * Pull from Constants and connect to the database using Hikari Data Pooling
-     */
-    val dataSource : HikariDataSource
-    val url = DBConstants.url
-    Class.forName("org.postgresql.Driver")
+  /**
+   * Pull from Constants and connect to the database using Hikari Data Pooling
+   */
+  val dataSource: HikariDataSource
+  val url = DBConstants.url
+  Class.forName("org.postgresql.Driver")
 
-    val hikariConfig = HikariConfig()
-    hikariConfig.jdbcUrl = url
-    hikariConfig.username = DBConstants.username
-    hikariConfig.password= DBConstants.password
+  val hikariConfig = HikariConfig()
+  hikariConfig.jdbcUrl = url
+  hikariConfig.username = DBConstants.username
+  hikariConfig.password = DBConstants.password
 
-    dataSource = HikariDataSource(hikariConfig)
-    Database.connect(dataSource)
+  dataSource = HikariDataSource(hikariConfig)
+  Database.connect(dataSource)
 
-    /**
-     * Create Database Table Structure
-     * Kind of like make-shift migrations going on here
-     */
-    transaction {
+  /**
+   * Create Database Table Structure
+   * Kind of like make-shift migrations going on here
+   */
+  transaction {
 
-        createMissingTablesAndColumns(
-            GameModel,
-            PlayerModel,
-            TeamModel
-        )
-    }
+    createMissingTablesAndColumns(
+      GameModel,
+      PlayerModel,
+      TeamModel
+    )
+  }
 }
